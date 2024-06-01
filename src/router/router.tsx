@@ -5,8 +5,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import App from "../App";
-
-import { Signin, Signup,Error } from "@pages";
+import { Signin, Signup, Error, Dashboad, Products, MainLayout,Category,Brands } from "@pages";
 
 const router = () => {
   const router = createBrowserRouter(
@@ -14,13 +13,17 @@ const router = () => {
       <Route path="/" element={<App />}>
         <Route index element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="
-        *" element={<Error/>} />
+        <Route path="*" element={<Error />} />
+        <Route path="/main/*" element={<MainLayout />}>
+          <Route index element={<Dashboad />} />
+          <Route path="products" element={<Products />} />
+          <Route path="category"  element={<Category/>} />
+          <Route path="brands"  element={<Brands/>} />
+        </Route>
       </Route>
     )
-   
   );
-  return <RouterProvider router={router}/>
+  return <RouterProvider router={router} />;
 };
 
-export default router
+export default router;

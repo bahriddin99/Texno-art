@@ -1,8 +1,187 @@
-import "./index.scss"
-const Signup = () => {
-  return (
-    <div>Signup</div>
-  )
-}
+import { Button,  IconButton, InputAdornment,  TextField } from "@mui/material";
+import { ErrorMessage, Field, Formik, Form } from "formik";
+import { SigNup } from "@auth";
+import { useMask } from "@react-input/mask";
+import { signUpValidationSchema } from "@validation";
+import { useState } from "react";
+import Notifation from "@notifation";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { ToastContainer } from "react-toastify";
+import auth from "@auth-services";
+import { setDataToCookie } from "@cookies";
 
-export default Signup
+const Signup = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const initialValues: SigNup = {
+    email: "",
+    password: "",
+    last_name: "",
+    first_name: "",
+    phone_numbe:  "",
+  };
+
+  const handleSubmit = async (values: SigNup) => {
+    try {
+      const response = await auth.sig_nup(values);
+      if (response.status === 200) {
+        setDataToCookie("access_token", response?.data.access_token);
+        setDataToCookie("refresh_token", response?.data.refresh_token);
+        setDataToCookie("id", response?.data?.id);
+        localStorage.setItem("token", response.data.access_token);
+        Notifation({ title: "Xammasi joyda", type: "success" });
+      }
+    } catch (error) {
+      console.log(error);
+      Notifation({ title: "Xatolik mavjud shef", type: "error" });
+    }
+  };
+
+  const inputRef = useMask({
+    mask: "+998 (__) ___-__-__",
+    replacement: { _: /\d/ },
+  });
+
+  return (
+    <>
+      <ToastContainer />
+      <div className="min-h-[200px] w-[400px] ml-[450px] hover:shadow-black shadow-md border border-black rounded-md mt-[60px] flex items-center justify-center flex-col  p-7 ">
+        <h1 className="text-[35px] font-bold mt-[-10px]">Ro'yxatdan o'tish</h1>
+        <div>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={signUpValidationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ isSubmitting }) => (
+              <Form>
+                <Field
+                  name="last_name"
+                  type="text"
+                  as={TextField}
+                  label="Last Name"
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  size="small"
+                  helperText={
+                    <ErrorMessage
+                      name="last_name"
+                      component="p"
+                      className="text-[red] text-[15px]"
+                    />
+                  }
+                />
+                <Field
+                  name="first_name"
+                  type="text"
+                  as={TextField}
+                  label="First Name"
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  size="small"
+                  helperText={
+                    <ErrorMessage
+                      name="first_name"
+                      component="p"
+                      className="text-[red] text-[15px]"
+                    />
+                  }
+                />
+                <Field
+                  name="email"
+                  type="email"
+                  as={TextField}
+                  label="Email"
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  size="small"
+                  helperText={
+                    <ErrorMessage
+                      name="email"
+                      component="p"
+                      className="text-[red] text-[15px]"
+                    />
+                  }
+                />
+                 <Field
+                  name="phone_number"
+                  type="tel"
+                  as={TextField}
+                  label="Telefon raqamingiz"
+                  fullWidth
+                  margin="normal"
+                  size="small"
+                  variant="outlined"
+                  inputRef={inputRef}
+                  helperText={
+                    <ErrorMessage
+                      name="phone_number"
+                      component="p"
+                      className="text-[red] text-[15px]"
+                    />
+                  }
+                />
+                <Field
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  as={TextField}
+                  label="Password"
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  size="small"
+                  helperText={
+                    <ErrorMessage
+                      name="password"
+                      component="p"
+                      className="text-[red] text-[15px]"
+                    />
+                  }
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              
+                
+            
+              <ErrorMessage
+                name="gender"
+                component="p"
+                className="mb-3 text-red-500 text-center"
+              />
+                <div className="flex  justify-between mb-3 items-center ">
+                  {/* <p className="cursor-pointer" onClick={() => navigate("/")}>
+                    Ro'yxatdan o'tish qismi
+                  </p> */}
+                </div>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  disabled={isSubmitting}
+                  fullWidth
+                >
+                  {isSubmitting ? "Submitting" : "Tizimga kirish"}
+                </Button>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Signup;

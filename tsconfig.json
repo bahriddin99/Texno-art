@@ -9,9 +9,15 @@
       "@" :["./src/*"],
       "@pages" :["./src/pages"],
       "@services" :["./src/services/config"],
+
+      "@routers" :["./src/router/routers.tsx"],
+
       "@auth" :["./src/interfaces/auth.ts"],
       "@auth-services" :["./src/services/auth/auth.ts"],
       "@container" :["./src/components/containers"],
+
+      "@layout" :["./src/components/ui/layout.tsx"],
+      "@account" :["./src/components/ui/account.tsx"],
       
       "@cookies" :["./src/utils/cookies.ts"],
       "@validation" :["./src/utils/validations.ts"],

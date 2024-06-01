@@ -8,10 +8,12 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { ToastContainer } from "react-toastify";
 import auth from "@auth-services";
 import { setDataToCookie } from "@cookies";
+import { useNavigate } from "react-router-dom";
+// import login from "../../assets/login.jpg"
 
 const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
-
+  const navigate = useNavigate()
   const initialValues: SigNin = {
     email: "",
     password: "",
@@ -39,8 +41,9 @@ const Signin = () => {
   return (
     <>
       <ToastContainer />
-      <div className="h-screen flex items-center justify-center flex-col gap-8 p-5 ">
-        <h1 className="text-[35px] font-bold mt-[-150px]">Tizimga kirish</h1>
+{/* <img className="absolute" src={login} alt="login img" /> */}
+      <div className=" min-h-[360px] w-[400px] ml-[450px] hover:shadow-black shadow-md border border-black rounded-md mt-[80px] flex items-center justify-center flex-col gap-3 p-7 ">
+        <h1 className="text-[30px] font-bold mt-[-10px]">Tizimga kirish</h1>
         <div>
           <Formik
             initialValues={initialValues}
@@ -56,6 +59,7 @@ const Signin = () => {
                   label="Email"
                   fullWidth
                   margin="normal"
+                  size="small"
                   variant="outlined"
                   helperText={
                     <ErrorMessage
@@ -72,6 +76,7 @@ const Signin = () => {
                   label="Password"
                   fullWidth
                   margin="normal"
+                  size="small"
                   variant="outlined"
                   helperText={
                     <ErrorMessage
@@ -94,9 +99,9 @@ const Signin = () => {
                   }}
                 />
                 <div className="flex  justify-between mb-3 items-center ">
-                  {/* <p className="cursor-pointer" onClick={() => navigate("/")}>
+                  <p className="cursor-pointer" onClick={() => navigate("/signup")}>
                     Ro'yxatdan o'tish qismi
-                  </p> */}
+                  </p>
                 </div>
                 <Button
                   type="submit"
