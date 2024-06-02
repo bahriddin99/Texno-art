@@ -8,6 +8,13 @@ export interface SigNup extends SigNin {
   phone_numbe:string;
   
 }
+export interface AuthStore {
+  data: any[];
+  isLoading: boolean;
+  sig_nin: (data: SigNin) => Promise<any>;
+  sig_nup: (data: SigNup) => Promise<any>;
+  // logout: () => Promise<any>;
+}
 
 export interface Request {
   sig_nin: (data: SigNin) => any;

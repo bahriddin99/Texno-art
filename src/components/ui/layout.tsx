@@ -1,6 +1,5 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -44,15 +43,15 @@ export default function Layout(props: Props) {
     // console.log(pathname);
   
     const drawer = (
-      <div className="p-2 rounded-md bg-[] ">
-        <List>
+      <div className="p-2  min-h-[100vh] bg-indigo">
+        <List className="text-white">
           {routers?.map((item, index) => (
             <NavLink
               to={item.path}
               key={index}
               className={
                 item.path === pathname
-                  ? "block bg-blue-500 rounded-md text-white"
+                  ? "block bg-white rounded-md text-layout"
                   : ""
               }
             >
@@ -61,7 +60,7 @@ export default function Layout(props: Props) {
                   <ListItemIcon>
                     <span
                       className={
-                        item.path === pathname ? "text-white" : "text-gray-500"
+                        item.path === pathname ? "text-layout" : "text-white"
                       }
                     >
                       {item.icon}
@@ -73,7 +72,6 @@ export default function Layout(props: Props) {
             </NavLink>
           ))}
         </List>
-        <Divider />
       </div>
     );
   
@@ -82,7 +80,8 @@ export default function Layout(props: Props) {
       window !== undefined ? () => window().document.body : undefined;
   
     return (
-      <Box sx={{ display: "flex" }}>
+     <>
+      <Box sx={{ display: "flex" , }}  >
         <Headerbar handleDrawerToggle={handleDrawerToggle} />
         <Box
           component="nav"
@@ -111,7 +110,7 @@ export default function Layout(props: Props) {
           <Drawer
             variant="permanent"
             sx={{
-              display: { xs: "none", sm: "block" },
+              display: { xs: "none", sm: "block", },
               "& .MuiDrawer-paper": {
                 boxSizing: "border-box",
                 width: drawerWidth,
@@ -137,5 +136,6 @@ export default function Layout(props: Props) {
           <Outlet />
         </Box>
       </Box>
-    );
+     </>
+    )
   }

@@ -27,7 +27,7 @@ export default function AccountMenu() {
 
   const logout =()=>{
     removeCookies("token ")
-    navigate("/signin")
+    navigate("/")
     window.location.reload()
   }
   return (
@@ -44,6 +44,7 @@ export default function AccountMenu() {
             aria-expanded={open ? 'true' : undefined}
           >
             <Avatar sx={{ width: 32, height: 32 }}> <img src={baxa} alt="rasm bor" /> </Avatar>
+            {/* <h1 className='text-white'>Admin</h1> */}
           </IconButton>
         </Tooltip>
       </Box>

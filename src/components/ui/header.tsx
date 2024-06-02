@@ -16,13 +16,13 @@ interface ModalProps {
 const Headerbar = ({handleDrawerToggle}:ModalProps) => {
     
   return (
-    <div>
+    <div className="">
       <CssBaseline />
       <AppBar
         position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          ml: { sm: `${drawerWidth}px`, background: "#263238"},    /* bg berish joyi*/ 
         }}
       >
         <Toolbar>
@@ -31,11 +31,11 @@ const Headerbar = ({handleDrawerToggle}:ModalProps) => {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
+            sx={{ mr: 2, display: { sm: "none" } }  }
           >
             <MenuIcon />
           </IconButton>
-          <div className="flex justify-between items-center w-full">
+          <div className="flex justify-between items-center w-full ">
           <Typography variant="h6" noWrap component="div">
             Bahriddin Shavqiyev
           </Typography>

@@ -1,7 +1,11 @@
 import "./index.scss"
+// import GlabalTable from "@globaltable"
 const Products = () => {
   return (
-    <div>Products</div>
+    <div>
+      {/* <GlabalTable/> */}
+      <h1>Products</h1>
+    </div>
   )
 }
 

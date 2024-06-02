@@ -7,17 +7,27 @@
     "skipLibCheck": true,
     "paths": {
       "@" :["./src/*"],
-      "@pages" :["./src/pages"],
-      "@services" :["./src/services/config"],
+      "@authstore" :["./src/store/auth.ts"],
 
+      "@delet" :["./src/assets/delet.tsx"],
+      "@edit" :["./src/assets/edit.tsx"],
+      "@pages" :["./src/pages"],
+      
       "@routers" :["./src/router/routers.tsx"],
 
       "@auth" :["./src/interfaces/auth.ts"],
-      "@auth-services" :["./src/services/auth/auth.ts"],
-      "@container" :["./src/components/containers"],
+      "@category" :["./src/interfaces/category.ts"],
+      "@global" :["./src/interfaces/global.ts"],
 
+      "@services" :["./src/services/config"],
+      "@auth-services" :["./src/services/auth/auth.ts"],
+      "@category-services" :["./src/services/category/category.ts"],
+      
+      "@container" :["./src/components/containers"],
       "@layout" :["./src/components/ui/layout.tsx"],
       "@account" :["./src/components/ui/account.tsx"],
+      "@globaltable" :["./src/components/ui/table.tsx"],
+      "@globalpaganation" :["./src/components/ui/pagination.tsx"],
       
       "@cookies" :["./src/utils/cookies.ts"],
       "@validation" :["./src/utils/validations.ts"],

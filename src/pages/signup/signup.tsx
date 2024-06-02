@@ -4,15 +4,14 @@ import { SigNup } from "@auth";
 import { useMask } from "@react-input/mask";
 import { signUpValidationSchema } from "@validation";
 import { useState } from "react";
-import Notifation from "@notifation";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { ToastContainer } from "react-toastify";
-import auth from "@auth-services";
-import { setDataToCookie } from "@cookies";
-
+import { ToastContainer, toast } from "react-toastify";
+import useRegisterStore from "@authstore";
+import { useNavigate } from "react-router-dom";
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
-
+  const {sig_nup} = useRegisterStore()
+ const navigate = useNavigate()
   const initialValues: SigNup = {
     email: "",
     password: "",
@@ -22,18 +21,15 @@ const Signup = () => {
   };
 
   const handleSubmit = async (values: SigNup) => {
+  
     try {
-      const response = await auth.sig_nup(values);
-      if (response.status === 200) {
-        setDataToCookie("access_token", response?.data.access_token);
-        setDataToCookie("refresh_token", response?.data.refresh_token);
-        setDataToCookie("id", response?.data?.id);
-        localStorage.setItem("token", response.data.access_token);
-        Notifation({ title: "Xammasi joyda", type: "success" });
+      const response = await sig_nup(values);
+      if (response.status === 201) {
+        toast.success("You registrated");
+        navigate("/");
       }
     } catch (error) {
-      console.log(error);
-      Notifation({ title: "Xatolik mavjud shef", type: "error" });
+      console.error("Signup error:", error);
     }
   };
 
