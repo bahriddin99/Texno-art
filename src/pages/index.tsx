@@ -7,4 +7,5 @@ import Models from "./models/models";
 import Products from "./products/products";
 import Dashboad from "./dashboad/dashboad";
 import MainLayout from "./main/main";
-export {Signin,Signup,Error,Brands,Models,Dashboad, Category,Products,MainLayout}
+import Subcategory from "./category/subcategory";
+export {Signin,Signup,Error,Brands,Models,Dashboad, Category,Products,MainLayout,Subcategory}

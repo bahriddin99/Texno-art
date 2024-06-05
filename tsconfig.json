@@ -8,6 +8,8 @@
     "paths": {
       "@" :["./src/*"],
       "@authstore" :["./src/store/auth.ts"],
+      "@categorystore" :["./src/store/category.ts"],
+      "@brandstore" :["./src/store/brands.ts"],
 
       "@delet" :["./src/assets/delet.tsx"],
       "@edit" :["./src/assets/edit.tsx"],
@@ -18,6 +20,7 @@
       "@auth" :["./src/interfaces/auth.ts"],
       "@category" :["./src/interfaces/category.ts"],
       "@global" :["./src/interfaces/global.ts"],
+      "@brands" :["./src/interfaces/brands.ts"],
 
       "@services" :["./src/services/config"],
       "@auth-services" :["./src/services/auth/auth.ts"],
@@ -28,6 +31,11 @@
       "@account" :["./src/components/ui/account.tsx"],
       "@globaltable" :["./src/components/ui/table.tsx"],
       "@globalpaganation" :["./src/components/ui/pagination.tsx"],
+
+      "@modalcategory" :["./src/components/modal/modal-category/modal-category.tsx"],
+      "@modalsubcategory" :["./src/components/modal/modal-supcategory/modal-subcategory.tsx"],
+      "@modaldelet" :["./src/components/modal/modal-delet/modal-delet.tsx"],
+      "@modalbrands" :["./src/components/modal/modal-brands/modal-brands.tsx"],
       
       "@cookies" :["./src/utils/cookies.ts"],
       "@validation" :["./src/utils/validations.ts"],

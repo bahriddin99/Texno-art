@@ -8,7 +8,8 @@ export default {
     extend: {
       colors: {
         indigo: "#263238",
-        layout: "#455a64"
+        layout: "#455a64",
+        button: "#1769aa"
       }
     },
   },

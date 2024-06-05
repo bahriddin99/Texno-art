@@ -5,7 +5,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import App from "../App";
-import { Signin, Signup, Error, Dashboad, Products, MainLayout,Category,Brands } from "@pages";
+import { Signin, Signup, Error, Subcategory, Products, MainLayout,Category,Brands } from "@pages";
 
 const router = () => {
   const router = createBrowserRouter(
@@ -17,6 +17,7 @@ const router = () => {
         <Route path="/main/*" element={<MainLayout />}>
           {/* <Route index element={<Dashboad />} /> */}
           <Route index element={<Products />} />
+          <Route path="category/:subcategory" element={<Subcategory/>}/>
           <Route path="category"  element={<Category/>} />
           <Route path="brands"  element={<Brands/>} />
         </Route>

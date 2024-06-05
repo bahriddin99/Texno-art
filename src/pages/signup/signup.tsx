@@ -17,14 +17,17 @@ const Signup = () => {
     password: "",
     last_name: "",
     first_name: "",
-    phone_numbe:  "",
+    // phone_numbe:  "",
   };
 
   const handleSubmit = async (values: SigNup) => {
+  console.log(values);
   
     try {
       const response = await sig_nup(values);
-      if (response.status === 201) {
+      console.log(response,"kmkmkmkm");
+      
+      if (response?.status == 201) {
         toast.success("You registrated");
         navigate("/");
       }
@@ -111,7 +114,7 @@ const Signup = () => {
                   margin="normal"
                   size="small"
                   variant="outlined"
-                  inputRef={inputRef}
+                  // inputRef={inputRef}
                   helperText={
                     <ErrorMessage
                       name="phone_number"

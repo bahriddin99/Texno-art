@@ -2,15 +2,16 @@ export interface Header {
     title:string,
     value:string
 }
-export interface BodyItem {
-    id: string,
+export interface Body {
+    id: number,
     [key:string]:any
 }
 
 export interface TableProps {
-    headers: Header[],
-    body: BodyItem[],
-    isLoading: boolean,
-    // deleteItem:(id:string)=>void
+    heders: Header[],
+    body: Body[];
+    isLoading?: boolean,
+    skelatonLoader: boolean;
+    deletIdData?:(id:string)=> any;
     // editeItem:(item:any)=>void
 }

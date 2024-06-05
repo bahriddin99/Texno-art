@@ -5,7 +5,7 @@ export interface SigNin {
 export interface SigNup extends SigNin {
   last_name: string;
   first_name: string;
-  phone_numbe:string;
+  // phone_numbe:string;
   
 }
 export interface AuthStore {

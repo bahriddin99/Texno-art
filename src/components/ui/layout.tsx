@@ -51,7 +51,7 @@ export default function Layout(props: Props) {
               key={index}
               className={
                 item.path === pathname
-                  ? "block bg-white rounded-md text-layout"
+                  ? "block bg-button rounded-md text-white"
                   : ""
               }
             >
@@ -60,7 +60,7 @@ export default function Layout(props: Props) {
                   <ListItemIcon>
                     <span
                       className={
-                        item.path === pathname ? "text-layout" : "text-white"
+                        item.path === pathname ? "text-white" : "text-white"
                       }
                     >
                       {item.icon}

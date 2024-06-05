@@ -18,11 +18,11 @@ const useRegisterStore = create<AuthStore>((set) => ({
           set({ data: response.data.admin });
           setDataToCookie("access_token", response.data.tokens.access_token);
           setDataToCookie("refresh_token", response.data.tokens.refresh_token);
-          setDataToCookie("last_name", response.data.admin.last_name);
-          setDataToCookie("first_name", response.data.admin.first_name);
-          setDataToCookie("admin_email", response.data.admin.email);
-          setDataToCookie("admin_phone_number", response.data.admin.phone_number);
-          setDataToCookie("admin_id", response.data.admin.id);
+          // setDataToCookie("last_name", response.data.admin.last_name);
+          // setDataToCookie("first_name", response.data.admin.first_name);
+          // setDataToCookie("admin_email", response.data.admin.email);
+          // setDataToCookie("admin_phone_number", response.data.admin.phone_number);
+          // setDataToCookie("admin_id", response.data.admin.id);
         } else if (response.status === 400)
           toast.warning("Wrong email or password!");
         else if (response.status === 404)
@@ -30,7 +30,7 @@ const useRegisterStore = create<AuthStore>((set) => ({
         else if (response.status === 500)
           toast.warning("Sorry, the connection to the server has been lost");
   
-        return response.status;
+        return response?.status;
       } catch (error) {
         console.error("Sign-in error:", error);
       } finally {
@@ -42,7 +42,9 @@ const useRegisterStore = create<AuthStore>((set) => ({
       set({ isLoading: true });
       try {
         const response: any = await auth.sig_nup(data);
-        return response.status;
+        return response;
+        console.log(response);
+        
       } catch (error) {
         console.error("Sign-up error:", error);
       } finally {
