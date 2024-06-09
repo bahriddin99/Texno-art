@@ -2,8 +2,8 @@ import request from "@services";
 import {Brand} from "../../interfaces/brands";
 
 export const brand:Brand = {
-   post: (data)=> request.post("/brand/create" , data),
-   delete: (id)=> request.delete(`/brand/delete/${id}`),
-   get: ()=> request.get(`/brand/get-all/q`),
-   update: (data)=> request.put(`/brand/update/${data.id}`, data.putData)
+   get_brands: (params) => request.get("/brand-category/search", {params}),
+  create_brand: (data: any) => request.post("/brand-category/create", data),
+  delete_brand: (id: string) => request.delete(`/brand-category/delete/${id}`),
+  update_brand: (id: string, data: any) => request.put(`/brand-category/update/${id}`, data),
 }

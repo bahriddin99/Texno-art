@@ -26,9 +26,13 @@ export default function AccountMenu() {
   };
 
   const logout =()=>{
-    removeCookies("token ")
+    removeCookies("access_token ")
     navigate("/")
     window.location.reload()
+  }
+
+  const settings =()=>{
+    navigate("/main/setting")
   }
   return (
     <React.Fragment>
@@ -96,7 +100,7 @@ export default function AccountMenu() {
           </ListItemIcon>
           Add another account
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={settings}>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>

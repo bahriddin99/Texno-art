@@ -1,113 +1,113 @@
-import { create } from 'zustand' ;
-import { toast } from 'react-toastify'; 
+import { create } from 'zustand';
 import { StoreCategory } from "@category";
 import Category from '@category-services';
+import Notifation from '@notifation';
 
-const useCategoryStore = create <StoreCategory> ((set)=>({
-   isLoader: false,
-   dataCategory: [],
-   dataSubCategory:[],
-   totlCount: 0,
-   subCategoryCount:0,
-   getDataCategory : async()=>{
-       try{
-          set({isLoader: true})
-          const respons = await Category.getCatigory()
-          if(respons.status === 200){
-              set({dataCategory: respons?.data?.categories});
-              set({totlCount: respons?.data?.count})
-          }
-          set({isLoader: false})
-      }catch(error){
-       console.log(error)
-       set({isLoader: false})
-      }
-      
-   },
-   postDatacategory: async(data)=>{
-       if(!data.parent_category_id){
-           try{
-               const respons = await Category.postCatigory(data)
-            //    console.log(respons)
-               if(respons.status === 201){
-                   set((state)=>({dataCategory: [...state.dataCategory, respons?.data?.category]})) 
-                   set((state)=>({totlCount: state.totlCount += 1}))
-                   return respons?.status
-               }
-            }catch(error){
-                console.log(error)
+const useCategoryStore = create<StoreCategory>((set) => ({
+    categories: [],
+    subCategories: [],
+    isLoading: false,
+    getCategories: async (params) => {
+        set({ isLoading: true });
+        try {
+            const response = await Category.get_categories(params);
+            if (response.status === 200) {
+                set({ categories: response.data.data.categories });
             }
-       }else{
-           try{
-               const respons = await Category.postCatigory(data)
-            //    console.log(respons)
-               if(respons.status === 201){
-                   set((state)=>({dataSubCategory: [...state.dataSubCategory, respons?.data?.category]})) 
-                   set((state)=>({subCategoryCount: state.totlCount += 1}))
-                   return respons?.status
-               }
-            }catch(error){
-                console.log(error)
+            set({ isLoading: false });
+            return response;
+        } catch (error: any) {
+            set({ isLoading: false })
+            Notifation({
+                title: error.message,
+                type: "error",
+            });
+        }
+    },
+    createCategory: async (data: any) => {
+        try {
+            const response = await Category.create_category(data);
+            if (response.status === 201) {
+                set((state) => ({
+                    categories: [...state.categories, response?.data.data],
+                    subCategories: [...state.subCategories, response?.data.category],
+                }));
+                Notifation({
+                    title: response.data.message,
+                    type: "success",
+                });
+                return response;
             }
-       }
-   },
-   deleteDataCategory: async(id)=>{
-       try{
-          const respons = await Category.deleteCategory(id)
-       //    console.log(respons)
-          if(respons.status === 200){
-              set((state)=>({dataSubCategory: state.dataSubCategory.filter((el:any)=>el.id!== id)}))
-              set((state)=>({dataCategory: state.dataCategory.filter((el:any)=>el.id !== id)})) 
-              set((state)=>({subCategoryCount: state.subCategoryCount -= 1}))
-              set((state)=>({totlCount: state.totlCount -= 1}))
-              toast.success("Deleted successfully")
-          }
-       }catch(error:any){
-           console.log(error)
-       }
-   },
-   updateDataCategory: async(data)=>{
-       if(!data.updateData.parent_category_id){
-           try{
-               const respons = await Category.updateCategory(data)
-               if(respons?.status === 200){
-                   set((state)=>({dataCategory: state.dataCategory.map((el:any)=>el.id === data?.id ? {...data.updateData , id:data.id} : el)}))
-                   return respons?.status
-               }
-               
-               }catch(error:any){
-                   console.log(error)
-               }
-       }else{
-           try{
-               const respons = await Category.updateCategory(data)
-               if(respons?.status === 200){
-                   set((state)=>({dataSubCategory: state.dataSubCategory.map((el:any)=>el.id === data?.id ? {...data.updateData , id:data.id} : el)}))
-                   return respons?.status
-               }
-               
-               }catch(error:any){
-                   console.log(error)
-               }
-       }
-   },
+            return response;
+        } catch (error: any) {
+            console.log(error);
+            Notifation({
+                title: "Somthing went wrong!",
+                type: "error",
+            });
+        }
+    },
+    updateCategory: async (id: number, data) => {
+        try {
+            const response = await Category.update_category(id, data);
+            if (response.status === 200) {
+                Notifation({
+                    title: response.data.message,
+                    type: "success",
+                });
+                set((state) => ({
+                    categories: state.categories.map((item: any) =>
+                        item.id === id ? response.data.data : item
+                    ),
+                }));
+            }
+            return response;
+        } catch (error) {
+            Notifation({
+                title: "Something went wrong!",
+                type: "error",
+            });
+        }
+    },
+    deleteCategory: async (id: any) => {
+        try {
+            const response = await Category.delete_category(id);
+            if (response.status === 200) {
+                Notifation({
+                    title: response.data.message,
+                    type: "success",
+                });
+                set((state) => ({
+                    categories: state.categories.filter((item: any) => item.id != id),
+                }));
+            }
+            return response;
+        } catch (error) {
+            Notifation({
+                title: "Something went wrong!",
+                type: "error",
+            });
+        }
+    },
+    getSubCategory: async (id: any) => {
+        set({ isLoading: true });
+        try {
+            const response = await Category.get_subcategory(id);
+            console.log(response);
+            if (response.status === 200) {
+                set({ subCategories: response.data.data.categories });
+            }
+            set({ isLoading: false });
+            return response;
+        } catch (error: any) {
+            set({ isLoading: false });
+            Notifation({
+                title: error.message,
+                type: "error",
+            });
+        }
+    },
 
-   getDataSubCategoryId: async(id)=>{
-       try{
-           set({isLoader: true})
-          const respons = await Category.getSubCategoryId(id)
-       //    console.log(respons)
-          if(respons.status === 200){
-              set({dataSubCategory: respons?.data?.categories});
-              set({subCategoryCount: respons?.data?.count})
-          }
-          set({isLoader: false})
-      }catch(error){
-       console.log(error)
-       set({isLoader: false})
-      }
-      
-   }
 
 }))
 

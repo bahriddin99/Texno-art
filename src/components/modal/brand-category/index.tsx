@@ -1,37 +1,38 @@
-import useCategoryStore from "@categorystore";
+import useBrandCategoryStore from "../../../store/brand-category";
 import useBrandStore from "@brandstore";
 import { Button, Form, Input, Modal, Select } from "antd";
-import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
-const ModalBrand: React.FC = () => {
+const BrandCategory: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { createBrand } = useBrandStore();
-  const { getCategories } = useCategoryStore();
+  const { createBrandCategory } = useBrandCategoryStore();
+  const { getBrands } = useBrandStore();
+  const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [category, setCategory] = useState([]);
+  const [selectLoading, setSelectLoading] = useState(false);
   const [form] = Form.useForm();
-  const [params] = useState({
-    limit: 10,
-    page: 1,
-  });
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-  const handleChange = async () => {
-    const response = await getCategories(params);
+  const [params] = useState({
+    limit: 1000,
+    page: 1,
+  });
+  const getSelectOptions = async () => {
+    setSelectLoading(true);
+    const response = await getBrands(params);
     if (response?.status === 200) {
-      setCategory(
-        response.data.data.categories.map((item: any) => ({
+      setBrands(
+        response.data.data.brands.map((item: any) => ({
           label: item.name,
           value: item.id,
         }))
       );
     }
+    setSelectLoading(false);
   };
   const handleSubmit = async (value: any) => {
     setLoading(true);
-    const response = await createBrand(value);
-    console.log(response);
+    const response = await createBrandCategory(value);
     if (response?.status === 201) {
       setIsModalVisible(false);
       form.resetFields();
@@ -40,19 +41,19 @@ const ModalBrand: React.FC = () => {
   };
   return (
     <>
-      <div onClick={handleChange}>
+      <div onClick={getSelectOptions}>
         <Button
           onClick={() => setIsModalVisible(true)}
           size="large"
           type="primary"
         >
-          Add New Brand
+          Add New Brand Category
         </Button>
       </div>
       <Modal
         open={isModalVisible}
         onCancel={handleCancel}
-        title="Add New Brand"
+        title="Add New Category"
         footer
         style={{ maxWidth: "450px" }}
       >
@@ -64,32 +65,18 @@ const ModalBrand: React.FC = () => {
           layout="vertical"
         >
           <Form.Item
-            label="Brand name"
+            label="Category name"
             name="name"
-            rules={[{ required: true, message: "Enter brand name" }]}
+            rules={[{ required: true, message: "Enter category name" }]}
           >
             <Input size="large" />
           </Form.Item>
           <Form.Item
-            label="Select category"
-            name="category_id"
+            label="Select brand"
+            name="brand_id"
             rules={[{ required: true, message: "Enter category name" }]}
           >
-            <Select size="large" options={category} />
-          </Form.Item>
-          <Form.Item
-            label="Brand image"
-            name="file"
-            rules={[{ required: true, message: "Enter brand image" }]}
-          >
-            <Input type="file" size="large" />
-          </Form.Item>
-          <Form.Item
-            label="Description"
-            name="description"
-            rules={[{ required: true, message: "Enter brand description" }]}
-          >
-            <TextArea size="large" />
+            <Select loading={selectLoading} size="large" options={brands} />
           </Form.Item>
           <Form.Item>
             <Button
@@ -108,4 +95,4 @@ const ModalBrand: React.FC = () => {
     </>
   );
 };
-export default ModalBrand;
+export default BrandCategory;

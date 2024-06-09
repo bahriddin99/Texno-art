@@ -18,11 +18,6 @@ const useRegisterStore = create<AuthStore>((set) => ({
           set({ data: response.data.admin });
           setDataToCookie("access_token", response.data.tokens.access_token);
           setDataToCookie("refresh_token", response.data.tokens.refresh_token);
-          // setDataToCookie("last_name", response.data.admin.last_name);
-          // setDataToCookie("first_name", response.data.admin.first_name);
-          // setDataToCookie("admin_email", response.data.admin.email);
-          // setDataToCookie("admin_phone_number", response.data.admin.phone_number);
-          // setDataToCookie("admin_id", response.data.admin.id);
         } else if (response.status === 400)
           toast.warning("Wrong email or password!");
         else if (response.status === 404)
@@ -49,6 +44,18 @@ const useRegisterStore = create<AuthStore>((set) => ({
         console.error("Sign-up error:", error);
       } finally {
         set({ isLoading: false });
+      }
+    },
+    getAdmin: async (id) => {
+      try {
+        const response = await auth.get_admin(id);
+        console.log(response);
+        if (response.status === 200) {
+          set({ data: response.data.data });
+        }
+        return response;
+      } catch (error) {
+        console.log(error);
       }
     },
   

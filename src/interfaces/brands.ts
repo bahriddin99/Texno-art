@@ -14,20 +14,19 @@ export interface UpdateData{
 
 
 export interface Brand{
-    post : (data:postData)=> any,
-    delete : (id:number)=> any,
-    get : ()=> any,
-    update : (data:UpdateData)=> any,
+    get_brands: (params: any) => any;
+  create_brand: (data: Brand) => any;
+  delete_brand: (id: string) => any;
+  update_brand: (id: string, data: Brand) => any;
 }
 
 // ---------> Interface Srore Brand <--------------------
 export interface StoreBrand {
-    isLoader:boolean;
-    dataBrands:any[];
-    totlCount:number;
-    getBrand: ()=> Promise <any>;
-    postBrand: (data:postData)=> Promise <any>;
-    deleteBrand: (id:number)=> Promise <any>;
-    updateBrand: (data:UpdateData)=> Promise <any>;
+    brand: any[];
+  isLoading: boolean;
+  getBrands: (params: any) => Promise<any>;
+  createBrand: (data: Brand) => Promise<any>;
+  deleteBrand: (id: string) => Promise<any>;
+  updateBrand: (id: string, data: Brand) => Promise<any>;
 }
 

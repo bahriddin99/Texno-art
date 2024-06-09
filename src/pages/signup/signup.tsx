@@ -17,7 +17,7 @@ const Signup = () => {
     password: "",
     last_name: "",
     first_name: "",
-    // phone_numbe:  "",
+    phone_number:  "",
   };
 
   const handleSubmit = async (values: SigNup) => {
@@ -33,6 +33,7 @@ const Signup = () => {
       }
     } catch (error) {
       console.error("Signup error:", error);
+      toast.error("You registrated");
     }
   };
 
@@ -161,9 +162,9 @@ const Signup = () => {
                 className="mb-3 text-red-500 text-center"
               />
                 <div className="flex  justify-between mb-3 items-center ">
-                  {/* <p className="cursor-pointer" onClick={() => navigate("/")}>
-                    Ro'yxatdan o'tish qismi
-                  </p> */}
+                  <p className="cursor-pointer" onClick={() => navigate("/")}>
+                    Tizimga kirish
+                  </p>
                 </div>
                 <Button
                   type="submit"

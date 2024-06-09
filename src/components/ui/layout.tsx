@@ -8,7 +8,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import routers from "@routers";
-// import logo from "../../assets/images.png"
+import logo from "../../assets/logotop.svg"
 import Headerbar from "./header";
 import { List } from "@mui/material";
 
@@ -43,7 +43,7 @@ export default function Layout(props: Props) {
     // console.log(pathname);
   
     const drawer = (
-      <div className="p-2  min-h-[100vh] bg-indigo">
+      <div className="p-2  min-h-[90vh] bg-indigo">
         <List className="text-white">
           {routers?.map((item, index) => (
             <NavLink
@@ -118,8 +118,8 @@ export default function Layout(props: Props) {
             }}
             open
           >
-            <div className="h-[70px]  w-full flex items-center justify-center">
-              {/* <img src={logo} alt="logo" className="w-32 h-32 " /> */}
+            <div className="h-[70px] bg-indigo  w-full flex items-center justify-center">
+              <img src={logo} alt="logo" className="w-32 h-32 " />
             </div>
             {drawer}
           </Drawer>
@@ -129,6 +129,7 @@ export default function Layout(props: Props) {
           sx={{
             flexGrow: 1,
             p: 3,
+            // background:"red",
             width: { sm: `calc(100% - ${drawerWidth}px)` },
           }}
         >

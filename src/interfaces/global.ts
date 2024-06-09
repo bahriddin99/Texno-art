@@ -8,10 +8,12 @@ export interface Body {
 }
 
 export interface TableProps {
-    heders: Header[],
-    body: Body[];
-    isLoading?: boolean,
-    skelatonLoader: boolean;
-    deletIdData?:(id:string)=> any;
-    // editeItem:(item:any)=>void
-}
+    columns: {
+      title: string;
+      dataIndex: string;
+      key: string;
+      render?: any;
+    }[];
+    data: { key: string; name: string }[];
+    boolean: boolean;
+  }

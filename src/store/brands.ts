@@ -1,66 +1,89 @@
-
+import Notifation from '@notifation';
 import { create } from 'zustand' ;
-import { toast } from 'react-toastify'; 
 import { brand} from '../services/brands/brands';
 import { StoreBrand } from '../interfaces/brands';
 
 const useBrandStore = create <StoreBrand> ((set)=>({
-    isLoader: false,
-    dataBrands: [],
-    totlCount: 0,
-    getBrand : async()=>{
-        try{
-           set({isLoader: true})
-           const respons = await brand.get()
-        //    console.log(respons)
-           if(respons.status === 200){
-               set({dataBrands: respons?.data?.brands});
-               set({totlCount: respons?.data?.count})
-           }
-           set({isLoader: false})
-       }catch(error){
-        console.log(error)
-        set({isLoader: false})
-       }
-       
+    brand: [],
+    isLoading: false,
+    getBrands: async (params) => {
+      set({ isLoading: true });
+      try {
+        const response = await brand.get_brands(params);
+        if (response.status === 200) {
+          set({ brand: response.data.data.brands });
+        }
+        set({ isLoading: false });
+        return response;
+      } catch (error: any) {
+        set({ isLoading: false });
+        Notifation({
+          title: error.message,
+          type: "error",
+        });
+      }
     },
-    postBrand: async(data)=>{
-        try{
-           const respons = await brand.post(data)
-        //    console.log(respons)
-           if(respons.status === 201){
-               set((state)=>({dataBrands: [...state.dataBrands, respons?.data?.brand]})) 
-               set((state)=>({totlCount: state.totlCount += 1}))
-               return respons?.status
-           }
-        }catch(error){
-            console.log(error)
+    createBrand: async (data) => {
+      try {
+        const response = await brand.create_brand(data);
+        if (response.status === 201) {
+          set((state) => ({
+            brand: [...state.brand, response.data.data],
+          }));
+          Notifation({
+            title: response.data.message,
+            type: "success",
+          });
         }
+        return response;
+      } catch (error: any) {
+        Notifation({
+          title: "Something went wrong!",
+          type: "error",
+        });
+      }
     },
-    deleteBrand: async(id)=>{
-        try{
-           const respons = await brand.delete(id)
-        //    console.log(respons)
-           if(respons.status === 200){
-               set((state)=>({dataBrands: state.dataBrands.filter((el:any)=>el.id!== id)})) 
-               set((state)=>({totlCount: state.totlCount -= 1}))
-               toast.success("Deleted successfully")
-           }
-        }catch(error:any){
-            console.log(error)
+    deleteBrand: async (id) => {
+      try {
+        const response = await brand.delete_brand(id);
+        if (response.status === 200) {
+            Notifation({
+            title: response.data.message,
+            type: "success",
+          });
+          set((state) => ({
+            brand: state.brand.filter((item: any) => item.id != id),
+          }));
         }
+        return response;
+      } catch (error: any) {
+        Notifation({
+          title: "Something went wrong!",
+          type: "error",
+        });
+      }
     },
-    updateBrand: async(data)=>{
-        try{
-        const respons = await brand.update(data)
-        if(respons?.status ===200){
-            set((state)=>({dataBrands: state.dataBrands.map((el:any)=>el.id === data?.id ? data.putData : el)}))
-            return respons?.status
+    updateBrand: async (id, data) => {
+      try {
+        const response = await brand.update_brand(id, data);
+        if (response.status === 200) {
+            Notifation({
+            title: response.data.message,
+            type: "success",
+          });
+          set((state) => ({
+            brand: state.brand.map((item: any) =>
+              item.id === id? response.data.brand : item
+            ),
+          }));
         }
-        
-        }catch(error:any){
-            console.log(error)
-        }
+        return response;
+      } catch (error: any) {
+        Notifation({
+          title: "Something went wrong!",
+          type: "error",
+        });
+      }
     }
 
 }))

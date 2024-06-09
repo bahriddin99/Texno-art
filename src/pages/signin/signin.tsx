@@ -8,7 +8,9 @@ import { ToastContainer } from "react-toastify";
 import Notifation from "@notifation";
 import useRegisterStore from "@authstore";
 import { useNavigate } from "react-router-dom";
-// import login from "../../assets/login.jpg"
+import { useMask } from "@react-input/mask";
+import { setDataToCookie } from "@cookies";
+import login from "../../assets/login.jpg"
 
 const Signin = () => {
   const {sig_nin} = useRegisterStore()
@@ -16,7 +18,7 @@ const Signin = () => {
   const navigate = useNavigate()
   
   const initialValues: SigNin = {
-    email: "",
+    phone_number: "",
     password: "",
   };
 
@@ -24,18 +26,27 @@ const Signin = () => {
 
     const status = await sig_nin(values);
     if (status === 201) {
-      navigate("/main");
+      setDataToCookie("access_token", status?.data?.data?.token);
       Notifation({title: "Xammasi nazorat ostida", type:"success"})
+      navigate("/main");
      
     } else 
      Notifation({title: "xatolik mavjud", type:"error"})
   };
 
+  const inputRef = useMask({
+    mask: "+998 (__) ___-__-__",
+    replacement: { _: /\d/ },
+  });
+
+
   return (
     <>
       <ToastContainer />
-{/* <img className="absolute" src={login} alt="login img" /> */}
-      <div className="   min-h-[360px]  w-[400px] ml-[450px] hover:shadow-black shadow-md border border-black rounded-md mt-[80px] flex items-center justify-center flex-col gap-3 p-7  ">
+<div className="mb-5">
+<img className="absolute h-[500px]" src={login} alt="login img" />
+</div>
+      <div className="   min-h-[360px]  w-[400px] ml-[650px] hover:shadow-black shadow-md border border-black rounded-md mt-[80px]  flex items-center justify-center flex-col gap-3 p-7  ">
         <h1 className="  text-[30px] font-bold mt-[-10px]">Tizimga kirish</h1>
         <div>
           <Formik
@@ -45,18 +56,19 @@ const Signin = () => {
           >
             {/* {({ isSubmitting }) => ( */}
               <Form>
-                <Field
-                  name="email"
-                  type="email"
+              <Field
+                  name="phone_number"
+                  type="tel"
                   as={TextField}
-                  label="Email"
+                  label="Telefon raqamingiz"
                   fullWidth
                   margin="normal"
                   size="small"
                   variant="outlined"
+                  // inputRef={inputRef}
                   helperText={
                     <ErrorMessage
-                      name="email"
+                      name="phone_number"
                       component="p"
                       className="text-[red] text-[15px]"
                     />
@@ -104,7 +116,7 @@ const Signin = () => {
                   fullWidth
                 >
                   {/* {isSubmitting ? "Submitting" : "Tizimga kirish"} */}
-                       test
+                       Tizimga kirish
                 </Button>
               </Form>
             {/* )} */}

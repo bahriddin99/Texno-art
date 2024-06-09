@@ -1,19 +1,19 @@
-
-import { useEffect, useState } from "react";
-import useBrandStore from "../../store/brands";
+import useBrandCategoryStore from "../../store/brand-category";
 import GlobalTable from "@globaltable";
-import ModalBrand from "@modalbrands"
-import BrandUpdate from "../../components/modal/brand-update/index";
-import DeletBrands from "../../components/modal/delate-brand/index";
+import { useEffect, useState } from "react";
+import BrandCategory from "../../components/modal/brand-category/index";
+import BrandCategoryDelet from "../../components/modal/delete-brand-category/index";
+import  UpdateBrandCategory  from "../../components/modal/update-brand-category";
 import { Input } from "antd";
 const index = () => {
-  const { getBrands, isLoading, brand } = useBrandStore();
+  const { getBrandCategory, brand_category, isLoading } =
+    useBrandCategoryStore();
   const [params, setParams] = useState({
     limit: 10,
     page: 1,
   });
   useEffect(() => {
-    getBrands(params);
+    getBrandCategory(params);
   }, [params]);
   const columns = [
     {
@@ -24,7 +24,7 @@ const index = () => {
       width: "52px",
     },
     {
-      title: "Brands name",
+      title: "Category name",
       dataIndex: "name",
       key: "name",
     },
@@ -34,26 +34,26 @@ const index = () => {
       key: "action",
       render: (_: any, record: any) => (
         <div className="flex gap-3">
-          <BrandUpdate record={record} />
-          <DeletBrands record={record} />
+          <UpdateBrandCategory record={record} />
+          <BrandCategoryDelet record={record} />
         </div>
       ),
     },
   ];
-  const search = (value: any) => {
+  const search = (value:any) => {
     setParams((prevParams) => ({ ...prevParams, search: value }));
-  };
+  }
   return (
     <>
       <div className="flex justify-between">
         <Input
           onChange={(e) => search(e.target.value)}
-          placeholder="Search brand..."
+          placeholder="Search category brand..."
           style={{ width: "300px" }}
         />
-        <ModalBrand />
+        <BrandCategory />
       </div>
-      <GlobalTable columns={columns} data={brand} boolean={isLoading} />
+      <GlobalTable columns={columns} data={brand_category} boolean={isLoading} />
     </>
   );
 };
